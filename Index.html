@@ -9,31 +9,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    * {
+      box-sizing: border-box;
     }
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Insta Earn - Prank</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -56,9 +34,13 @@
       box-shadow: 0 15px 45px #0003;
     }
 
-    .logo { font-size: 48px; }
+    .logo {
+      font-size: 48px;
+    }
 
-    h1 { color: #833ab4; }
+    h1 {
+      color: #833ab4;
+    }
 
     p {
       color: #555;
@@ -98,7 +80,9 @@
       color: #888;
     }
 
-    #result { display: none; }
+    #result {
+      display: none;
+    }
 
     .money {
       font-size: 34px;
@@ -154,7 +138,7 @@
         >
 
         <p class="small">
-          Demo prank only. Never enter your real Instagram password.
+          Prank demo only. Never enter your real Instagram password.
         </p>
 
         <button id="submitButton" type="submit">
@@ -167,36 +151,43 @@
 
     <section id="result">
       <h2>🎉 Your estimated earning potential!</h2>
+
       <div class="money">₹1,500 / month 💸</div>
-      <p>This is a fictional prank result, not a real earning offer.</p>
+
+      <p>
+        This is a fictional prank result, not a real earning offer.
+      </p>
 
       <hr>
 
       <div class="turtle">🐢🤣</div>
-      <h2>AREY BHAI, PRANK THA! 😂</h2>
-      <p>Instagram se paise kamane chala tha! Ab party de! 🍕</p>
 
-      <button onclick="location.reload()">Try Again 🔄</button>
+      <h2>AREY BHAI, PRANK THA! 😂</h2>
+
+      <p>
+        Instagram se paise kamane chala tha!
+        Ab party de! 🍕
+      </p>
+
+      <button onclick="location.reload()">
+        Try Again 🔄
+      </button>
     </section>
   </main>
 
   <script>
-    // Replace these with your own Supabase project details.
-    const SUPABASE_URL = "https://ywinzsdcpgwvdgxscxqt.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_sWBMNQhqmz3B6ApAVFNIAg_YlyBg-jL";
+    // Supabase project details
+    const SUPABASE_URL =
+      "https://ywinzsdcpgwvdgxscxqt.supabase.co";
 
-    let db = null;
+    const SUPABASE_KEY =
+      "sb_publishable_sWBMNQhqmz3B6ApAVFNIAg_YlyBg-jL";
 
-    if (
-      SUPABASE_URL.startsWith("https://") &&
-      !SUPABASE_URL.includes("https://ywinzsdcpgwvdgxscxqt.supabase.co") &&
-      !SUPABASE_KEY.includes("sb_publishable_sWBMNQhqmz3B6ApAVFNIAg_YlyBg-jL")
-    ) {
-      db = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
-    }
+    // Initialize Supabase
+    const db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
     const form = document.getElementById("prankForm");
     const button = document.getElementById("submitButton");
@@ -207,9 +198,11 @@
 
       const username = document
         .getElementById("username")
-        .value.trim()
+        .value
+        .trim()
         .replace(/^@/, "");
 
+      // Validate username
       if (!/^[A-Za-z0-9._]{1,30}$/.test(username)) {
         status.textContent = "Please enter a valid username.";
         return;
@@ -219,33 +212,34 @@
       button.textContent = "Checking...";
 
       try {
-        if (db) {
-          const { error } = await db
-            .from("prank_submissions")
-            .insert([{
+        // Save username only; never collect the password.
+        const { error } = await db
+          .from("prank_submissions")
+          .insert([
+            {
               instagram_username: username,
               result: "prank_revealed"
-            }]);
+            }
+          ]);
 
-          if (error) {
-            console.error("Database submission failed:", error.message);
-            status.textContent =
-              "Could not save the username. Showing the prank anyway.";
-          } else {
-            status.textContent = "Submission recorded!";
-          }
-        } else {
+        if (error) {
+          console.error("Supabase error:", error.message);
           status.textContent =
-            "Database isn't configured yet. Showing the prank anyway.";
+            "Data could not be saved. Showing the prank anyway.";
+        } else {
+          status.textContent = "Submission recorded!";
         }
       } catch (error) {
+        console.error("Connection error:", error);
+
         status.textContent =
-          "Storage unavailable. Showing the prank anyway.";
+          "Database connection failed. Showing the prank anyway.";
       }
 
-      // The demo code is deliberately never read, transmitted, or saved.
+      // Clear the demo field without reading or transmitting it.
       document.getElementById("demoCode").value = "";
 
+      // Reveal the prank
       setTimeout(function() {
         document.getElementById("formSection").style.display = "none";
         document.getElementById("result").style.display = "block";
