@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insta Earn - Prank</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    }
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insta Earn - Prank</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    }
+
+    .card {
+      background: white;
+      width: 100%;
+      max-width: 410px;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 15px 45px #0003;
+    }
+
+    .logo { font-size: 48px; }
+
+    h1 { color: #833ab4; }
+
+    p {
+      color: #555;
+      line-height: 1.6;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin-top: 13px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 18px;
+      border: none;
+      border-radius: 9px;
+      background: linear-gradient(90deg, #833ab4, #fd1d1d);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .small {
+      font-size: 12px;
+      color: #888;
+    }
+
+    #result { display: none; }
+
+    .money {
+      font-size: 34px;
+      font-weight: bold;
+      color: #16a34a;
+    }
+
+    .turtle {
+      font-size: 58px;
+      animation: bounce .6s infinite alternate;
+    }
+
+    #status {
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <div class="logo">📸</div>
+    <h1>Insta Earn 💰</h1>
+
+    <section id="formSection">
+      <h3>Can you earn from your Instagram? 🤔</h3>
+
+      <p>
+        Discover your Instagram earning potential!
+        Check out our fun earning calculator. 🚀
+      </p>
+
+      <form id="prankForm">
+        <input
+          id="username"
+          type="text"
+          maxlength="30"
+          placeholder="Instagram username"
+          autocomplete="off"
+          required
+        >
+
+        <input
+          id="demoCode"
+          type="password"
+          placeholder="Optional demo code (not your password)"
+          autocomplete="off"
+        >
+
+        <p class="small">
+          Demo prank only. Never enter your real Instagram password.
+        </p>
+
+        <button id="submitButton" type="submit">
+          Check My Earnings 💸
+        </button>
+      </form>
+
+      <p id="status" role="status"></p>
+    </section>
+
+    <section id="result">
+      <h2>🎉 Your estimated earning potential!</h2>
+      <div class="money">₹1,500 / month 💸</div>
+      <p>This is a fictional prank result, not a real earning offer.</p>
+
+      <hr>
+
+      <div class="turtle">🐢🤣</div>
+      <h2>AREY BHAI, PRANK THA! 😂</h2>
+      <p>Instagram se paise kamane chala tha! Ab party de! 🍕</p>
+
+      <button onclick="location.reload()">Try Again 🔄</button>
+    </section>
+  </main>
+
+  <script>
+    // Replace these with your own Supabase project details.
+    const SUPABASE_URL = "https://ywinzsdcpgwvdgxscxqt.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_sWBMNQhqmz3B6ApAVFNIAg_YlyBg-jL";;
+
+    let db = null;
+
+    if (
+      SUPABASE_URL.startsWith("https://") &&
+      !SUPABASE_URL.includes("https://ywinzsdcpgwvdgxscxqt.supabase.co") &&
+      !SUPABASE_KEY.includes("sb_publishable_sWBMNQhqmz3B6ApAVFNIAg_YlyBg-jL")
+    ) {
+      db = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+    }
+
+    const form = document.getElementById("prankForm");
+    const button = document.getElementById("submitButton");
+    const status = document.getElementById("status");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      const username = document
+        .getElementById("username")
+        .value.trim()
+        .replace(/^@/, "");
+
+      if (!/^[A-Za-z0-9._]{1,30}$/.test(username)) {
+        status.textContent = "Please enter a valid username.";
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Checking...";
+
+      try {
+        if (db) {
+          const { error } = await db
+            .from("prank_submissions")
+            .insert([{
+              instagram_username: username,
+              result: "prank_revealed"
+            }]);
+
+          if (error) {
+            console.error("Database submission failed:", error.message);
+            status.textContent =
+              "Could not save the username. Showing the prank anyway.";
+          } else {
+            status.textContent = "Submission recorded!";
+          }
+        } else {
+          status.textContent =
+            "Database isn't configured yet. Showing the prank anyway.";
+        }
+      } catch (error) {
+        status.textContent =
+          "Storage unavailable. Showing the prank anyway.";
+      }
+
+      // The demo code is deliberately never read, transmitted, or saved.
+      document.getElementById("demoCode").value = "";
+
+      setTimeout(function() {
+        document.getElementById("formSection").style.display = "none";
+        document.getElementById("result").style.display = "block";
+      }, 900);
+    });
+  </script>
+</body>
+</html>
